@@ -1,0 +1,19 @@
+{
+    "name": "dongyukang/purduecourse",
+    "description": "Laravel Purdue Univeristy Course api package",
+    "require": {
+        "guzzlehttp/guzzle": "^6.2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dongyu Kang",
+            "email": "dongyu@dongyukang.com"
+        }
+    ],
+    "autoload": {
+      "psr-4": {
+        "DongyuKang\\PurdueCourse\\": "packages/dongyukang/purduecourse/src"
+      }
+    }
+}
