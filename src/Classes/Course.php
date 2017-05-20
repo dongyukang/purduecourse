@@ -9,24 +9,19 @@ class Course extends Term
 {
   use CourseDataManager;
 
-  protected $courseData;
-
   protected $subject;
 
   protected $course_number;
 
-  /**
-   *
-   *
-   * @param   $course
-   */
   public function course($course)
   {
-
     $courseData = $this->splitCourseData($course);
-
     $this->subject = $courseData['subject'];
     $this->course_number = $courseData['course_number'];
+
+    if (!$this->checkCourseAvailability($this->termId, $this->subject, $this->course_number)) {
+      return null;
+    }
 
     /**
      * If user tries to access to course() directly without filtering through term,
@@ -44,6 +39,10 @@ class Course extends Term
     return $this->termId;
   }
 
+  /**
+   * @param  [type] $property [description]
+   * @return [type]           [description]
+   */
   public function only($property)
   {
     return 'only';

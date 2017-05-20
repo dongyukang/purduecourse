@@ -49,19 +49,7 @@ class Term
    */
   public function __construct()
   {
-    $this->initiateTerms();
-  }
-
-  /**
-   * Load all terms via guzzle
-   */
-  protected function initiateTerms()
-  {
-    $response = $this->requester()->request('GET', 'Terms');
-
-    $terms = json_decode($response->getBody(), true);
-
-    $this->terms = $terms['value'];
+    $this->terms = $this->requestAsGet('Terms');
   }
 
   /**
