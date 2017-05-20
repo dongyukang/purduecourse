@@ -3,25 +3,48 @@
 namespace DongyuKang\PurdueCourse\Classes;
 
 use Carbon\Carbon;
-use GuzzleHttp\Client;
-use DongyuKang\PurdueCourse\Classes\Course;
+use DongyuKang\PurdueCourse\Traits\TermVerifiable;
+use DongyuKang\PurdueCourse\Traits\HttpRequestManager;
 
 class Term
 {
-  /**
-   * GuzzleHttp Client
-   */
-  protected $client;
+
+  use TermVerifiable, HttpRequestManager;
 
   /**
    * Array that contains all terms in json type
+   *
+   * @var Array
    */
   protected $terms;
 
   /**
    * Term id
+   *
+   * @var String
    */
-  protected $termId;
+  public $termId;
+
+  /**
+   * Name of term
+   *
+   * @var String
+   */
+  public $termName;
+
+  /**
+   * Term beggining date
+   *
+   * @var [type]
+   */
+  public $termBegin;
+
+  /**
+   * Term ending date
+   *
+   * @var [type]
+   */
+  public $termEnd;
 
   /**
    * Contstructor
@@ -36,11 +59,7 @@ class Term
    */
   protected function initiateTerms()
   {
-    $this->client = new Client([
-      'base_uri' => 'http://api.purdue.io/odata/'
-    ]);
-
-    $response = $this->client->request('GET', 'Terms');
+    $response = $this->requester()->request('GET', 'Terms');
 
     $terms = json_decode($response->getBody(), true);
 
@@ -59,7 +78,12 @@ class Term
   {
     foreach($this->terms as $term) {
       if ($term['Name'] == $term_name . ' ' . $year) {
+
         $this->termId = $term['TermId'];
+        $this->termName = $term['Name'];
+        $this->termBegin = $term['StartDate'];
+        $this->termEnd = $term['EndDate'];
+
         return $this;
       }
     }

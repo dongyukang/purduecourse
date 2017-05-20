@@ -2,7 +2,6 @@
 
 namespace DongyuKang\PurdueCourse;
 
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 
 class PurdueCourseServiceProvider extends ServiceProvider
@@ -23,6 +22,6 @@ class PurdueCourseServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
+      $this->app->bind('purdue', 'DongyuKang\PurdueCourse\Purdue');
     }
 }
