@@ -4,6 +4,7 @@ namespace DongyuKang\PurdueCourse\Classes;
 
 use DongyuKang\PurdueCourse\Classes\Term;
 use DongyuKang\PurdueCourse\Traits\CourseDataManager;
+use DongyuKang\PurdueCourse\Classes\SimpleQueryBuilder;
 
 class Course extends Term
 {
@@ -31,7 +32,22 @@ class Course extends Term
       $this->termId = $this->currentTerm();
     }
 
+    $builder = new SimpleQueryBuilder();
+
+    $course = $this->subject . ' ' . $this->course_number;
+
+    $query = $builder->endpoint('Courses')->expand('$expand=Classes')->filter(['course' => $course])->build();
+
+    $this->requestAsGet($query);
+
     return $this;
+  }
+
+  public function queryTest()
+  {
+    $builder = new SimpleQueryBuilder();
+    $query = $builder->endpoint('Courses')->expand('$expand=Classes')->filter(['course' => 'ma 161'])->build();
+    dd($this->requestAsGet($query));
   }
 
   public function all()

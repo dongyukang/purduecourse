@@ -2,6 +2,7 @@
 
 namespace DongyuKang\PurdueCourse\Traits;
 
+use DongyuKang\PurdueCourse\Classes\SimpleQueryBuilder;
 use DongyuKang\PurdueCourse\Traits\HttpRequestManager;
 
 trait CourseDataManager
@@ -44,7 +45,9 @@ trait CourseDataManager
    */
   public function checkCourseAvailability($termId, $subject, $course_number)
   {
-    $query = 'Courses?$expand=Classes&$filter=Subject/Abbreviation eq ' . "'" . $subject . "'" .' and Number eq ' . "'" . $course_number . "'";
+    $course = $subject . ' ' . $course_number;
+    $builder = new SimpleQueryBuilder();
+    $query = $builder->endpoint('Courses')->filter(['course' => $course])->expand('$expand=Classes')->build();
 
     $classes = $this->requestAsGet($query);
 
