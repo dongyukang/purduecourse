@@ -11,7 +11,7 @@ trait HttpRequestManager
 
 
   /**
-   * Initialize setting base uri.
+   * Initialize base uri.
    */
   protected function init()
   {

@@ -3,13 +3,11 @@
 namespace DongyuKang\PurdueCourse\Classes;
 
 use Carbon\Carbon;
-use DongyuKang\PurdueCourse\Traits\TermVerifiable;
 use DongyuKang\PurdueCourse\Traits\HttpRequestManager;
 
 class Term
 {
-
-  use TermVerifiable, HttpRequestManager;
+  use HttpRequestManager;
 
   /**
    * Array that contains all terms in json type
