@@ -4,15 +4,17 @@ namespace DongyuKang\PurdueCourse\Classes;
 
 use DongyuKang\PurdueCourse\Classes\Term;
 use DongyuKang\PurdueCourse\Traits\CourseDataManager;
-use DongyuKang\PurdueCourse\Classes\SimpleQueryBuilder;
+use DongyuKang\PurdueCourse\Classes\SimpleQueryBuilder as Builder;
 
 class Course extends Term
 {
   use CourseDataManager;
 
-  protected $subject;
+  protected $subject = null;
 
-  protected $course_number;
+  protected $course_number = null;
+
+  protected $courses = null;
 
   public function course($course)
   {
@@ -21,6 +23,7 @@ class Course extends Term
     $this->course_number = $courseData['course_number'];
 
     if (!$this->checkCourseAvailability($this->termId, $this->subject, $this->course_number)) {
+      echo 'Course may not offer during the term you have selected.';
       return null;
     }
 
@@ -32,27 +35,26 @@ class Course extends Term
       $this->termId = $this->currentTerm();
     }
 
-    $builder = new SimpleQueryBuilder();
-
     $course = $this->subject . ' ' . $this->course_number;
+    $builder = new Builder();
+    $query = $builder->endpoint('Courses')->expand('$expand=Classes($expand=Sections)')->filter(['course' => $course])->build();
 
-    $query = $builder->endpoint('Courses')->expand('$expand=Classes')->filter(['course' => $course])->build();
-
-    $this->requestAsGet($query);
+    $this->courses = $this->requestAsGet($query);
 
     return $this;
   }
 
   public function queryTest()
   {
-    $builder = new SimpleQueryBuilder();
-    $query = $builder->endpoint('Courses')->expand('$expand=Classes')->filter(['course' => 'ma 161'])->build();
-    dd($this->requestAsGet($query));
+    $builder = new Builder();
+    $query = $builder->endpoint('Courses')->expand('$expand=Classes($expand=Sections)')->filter(['course' => 'cs 180'])->build();
+
+    return $query;
   }
 
   public function all()
   {
-    return $this->termId;
+    return $this->courses;
   }
 
   /**

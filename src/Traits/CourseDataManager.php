@@ -2,8 +2,8 @@
 
 namespace DongyuKang\PurdueCourse\Traits;
 
-use DongyuKang\PurdueCourse\Classes\SimpleQueryBuilder;
 use DongyuKang\PurdueCourse\Traits\HttpRequestManager;
+use DongyuKang\PurdueCourse\Classes\SimpleQueryBuilder as Builder;
 
 trait CourseDataManager
 {
@@ -46,8 +46,8 @@ trait CourseDataManager
   public function checkCourseAvailability($termId, $subject, $course_number)
   {
     $course = $subject . ' ' . $course_number;
-    $builder = new SimpleQueryBuilder();
-    $query = $builder->endpoint('Courses')->filter(['course' => $course])->expand('$expand=Classes')->build();
+    $builder = new Builder();
+    $query = $builder->endpoint('Courses')->filter(['course' => $course])->expand('$expand=Classes($select=TermId)')->build();
 
     $classes = $this->requestAsGet($query);
 
@@ -56,5 +56,20 @@ trait CourseDataManager
     }
 
     return false;
+  }
+
+  /**
+   * Pull Class Data based on term
+   *
+   */
+  public function pullClassData($termId, $classes)
+  {
+    foreach($classes as $class) {
+      if ($class['TermId'] == $termId) {
+        return $class;
+      }
+    }
+
+    return null;
   }
 }
