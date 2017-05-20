@@ -35,12 +35,6 @@ class Course extends Term
       $this->termId = $this->currentTerm();
     }
 
-    $course = $this->subject . ' ' . $this->course_number;
-    $builder = new Builder();
-    $query = $builder->endpoint('Courses')->expand('$expand=Classes($expand=Sections)')->filter(['course' => $course])->build();
-
-    $this->courses = $this->requestAsGet($query);
-
     return $this;
   }
 
@@ -54,10 +48,21 @@ class Course extends Term
 
   public function all()
   {
-    return $this->courses;
+    $course = $this->subject . ' ' . $this->course_number;
+    $builder = new Builder();
+    $query = $builder->endpoint('Courses')->expand('$expand=Classes($expand=Sections($expand=Meetings))')->filter(['course' => $course])->build();
+    $this->courses = $this->requestAsGet($query);
+
+    $course_data = [
+    ];
+
+    return $course_data;
   }
 
   /**
+   * Can select which properties to pull
+   *
+   *
    * @param  [type] $property [description]
    * @return [type]           [description]
    */
