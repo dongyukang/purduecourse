@@ -75,6 +75,14 @@ class Course extends Term
 
   public function course($course)
   {
+    /**
+     * If user tries to access to course() directly without filtering through term,
+     * then the default term will be current term.
+     */
+    if ($this->termId == NULL) {
+      $this->termId = $this->currentTerm();
+    }
+    
     $courseData = $this->splitCourseData($course);
     $this->subject = $courseData['subject'];
     $this->course_number = $courseData['course_number'];
@@ -92,8 +100,9 @@ class Course extends Term
 
     $this->courses = $this->requestAsGet($query);
 
-    if (count($this->courses) > 1) {
-      $this->count_courses = count($this->courses);
+    $this->count_courses = count($this->courses);
+
+    if ($this->count_courses > 1) {
       $this->classes = $this->courseId = $this->title = $this->creditHours = $this->description = array();
 
       foreach($this->courses as $course) {
@@ -109,14 +118,6 @@ class Course extends Term
       $this->creditHours = $this->courses[0]['CreditHours'];
       $this->description = $this->courses[0]['Description'];
       $this->classes = $this->pullClassData($this->termId, $this->courses[0]['Classes']);
-    }
-
-    /**
-     * If user tries to access to course() directly without filtering through term,
-     * then the default term will be current term.
-     */
-    if ($this->termId == NULL) {
-      $this->termId = $this->currentTerm();
     }
 
     return $this;
