@@ -19,7 +19,7 @@ trait HttpRequestManager
     ]);
   }
 
-  public function requester()
+  protected function requester()
   {
     $this->init();
 

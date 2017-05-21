@@ -10,11 +10,68 @@ class Course extends Term
 {
   use CourseDataManager;
 
-  protected $subject = null;
+  /**
+   *
+   * @var Array
+   */
+  protected $courses;
 
-  protected $course_number = null;
+  /**
+   *
+   *
+   * @var Array
+   */
+  protected $classes;
 
-  protected $courses = null;
+  /**
+   * Number of courses.
+   * Default is 1.
+   *
+   * @var integer
+   */
+  protected $count_courses = 1;
+
+  /**
+   * Subject entity.
+   *
+   * @var String
+   */
+  public $subject;
+
+  /**
+   * Course number in a 5 digit string.
+   *
+   * @var String
+   */
+  public $course_number;
+
+  /**
+   * Numeric value of credits for the course.
+   *
+   * @var Double
+   */
+  public $creditHours;
+
+  /**
+   * Title of the course, ex) 'Multivariate Calculus'.
+   *
+   * @var String
+   */
+  public $title;
+
+  /**
+   * A unique identifier for a specific course.
+   *
+   * @var String
+   */
+  public $courseId;
+
+  /**
+   * Course description and/or notes ex) 'Evening Exams Required'.
+   *
+   * @var [type]
+   */
+  public $description;
 
   public function course($course)
   {
@@ -23,8 +80,35 @@ class Course extends Term
     $this->course_number = $courseData['course_number'];
 
     if (!$this->checkCourseAvailability($this->termId, $this->subject, $this->course_number)) {
-      echo 'Course may not offer during the term you have selected.';
-      return null;
+      abort(404, 'Course not offer during this term');
+    }
+
+    $course = $this->subject . ' ' . $this->course_number;
+
+    $builder = new Builder();
+    $query = $builder->endpoint('Courses')
+    ->expand('$expand=Classes($expand=Sections($expand=Meetings($expand=Instructors)))')
+    ->filter(['course' => $course])->build();
+
+    $this->courses = $this->requestAsGet($query);
+
+    if (count($this->courses) > 1) {
+      $this->count_courses = count($this->courses);
+      $this->classes = $this->courseId = $this->title = $this->creditHours = $this->description = array();
+
+      foreach($this->courses as $course) {
+        array_push($this->courseId, $course['CourseId']);
+        array_push($this->title, $course['Title']);
+        array_push($this->creditHours, $course['CreditHours']);
+        array_push($this->description, $course['Description']);
+        array_push($this->classes, $this->pullClassData($this->termId, $course['Classes']));
+      }
+    } else {
+      $this->courseId = $this->courses[0]['CourseId'];
+      $this->title = $this->courses[0]['Title'];
+      $this->creditHours = $this->courses[0]['CreditHours'];
+      $this->description = $this->courses[0]['Description'];
+      $this->classes = $this->pullClassData($this->termId, $this->courses[0]['Classes']);
     }
 
     /**
@@ -38,23 +122,29 @@ class Course extends Term
     return $this;
   }
 
-  public function queryTest()
-  {
-    $builder = new Builder();
-    $query = $builder->endpoint('Courses')->expand('$expand=Classes($expand=Sections)')->filter(['course' => 'cs 180'])->build();
-
-    return $query;
-  }
-
   public function all()
   {
-    $course = $this->subject . ' ' . $this->course_number;
-    $builder = new Builder();
-    $query = $builder->endpoint('Courses')->expand('$expand=Classes($expand=Sections($expand=Meetings))')->filter(['course' => $course])->build();
-    $this->courses = $this->requestAsGet($query);
+    $course_data = array();
 
-    $course_data = [
-    ];
+    if ($this->count_courses > 1) {
+      for ($i = 0; $i < $this->count_courses; $i++) {
+        array_push($course_data, [
+          'CourseId'    => $this->courseId[$i],
+          'Title'       => $this->title[$i],
+          'CreditHours' => $this->creditHours[$i],
+          'Description' => $this->description[$i],
+          'Classes'     => $this->classes[$i]
+        ]);
+      }
+    } else {
+      $course_data = [
+        'CourseId'    => $this->courseId,
+        'Title'       => $this->title,
+        'CreditHours' => $this->creditHours,
+        'Description' => $this->description,
+        'Classes'     => $this->classes
+      ];
+    }
 
     return $course_data;
   }
@@ -69,10 +159,5 @@ class Course extends Term
   public function only($property)
   {
     return 'only';
-  }
-
-  public function except($property)
-  {
-    return 'except';
   }
 }

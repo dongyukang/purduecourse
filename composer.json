@@ -13,7 +13,7 @@
     ],
     "autoload": {
       "psr-4": {
-        "DongyuKang\\PurdueCourse\\": "packages/dongyukang/purduecourse/src"
+        "DongyuKang\\PurdueCourse\\": "src/"
       }
     }
 }
