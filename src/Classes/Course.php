@@ -82,7 +82,7 @@ class Course extends Term
     if ($this->termId == NULL) {
       $this->termId = $this->currentTerm();
     }
-    
+
     $courseData = $this->splitCourseData($course);
     $this->subject = $courseData['subject'];
     $this->course_number = $courseData['course_number'];
