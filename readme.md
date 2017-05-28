@@ -27,3 +27,6 @@ instead of lines of sending requests, writing queries, parsing data and all othe
 Below is a screenshot of result data that you will get from the code above.
 
 ![Result](http://i.imgur.com/bHTI9p3.png)
+
+This package is still in development phase yet.<br>
+For more detail, refer to [WIKI](https://github.com/dongyukang/purduecourse/wiki)
