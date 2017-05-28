@@ -24,12 +24,31 @@ class Course extends Term
   protected $classes;
 
   /**
+   *
+   * @var Array
+   */
+  public $subjects;
+
+  /**
+   *
+   * @var Array
+   */
+  public $numbers;
+
+  /**
    * Number of courses.
    * Default is 1.
    *
    * @var integer
    */
   protected $count_courses = 1;
+
+  /**
+   * Courses available in specific term in array
+   *
+   * @var Array
+   */
+  protected $courses_array;
 
   /**
    * Subject entity.
@@ -121,6 +140,28 @@ class Course extends Term
     }
 
     return $this;
+  }
+
+  /**
+   * Pull all subjects in abbreviated form.
+   *
+   */
+  public function subjects()
+  {
+    $query = 'Subjects/?filter=(Courses/any(c: c/Classes/any(cc: cc/Term/TermId eq ' . $this->termId . ')))&$orderby=Abbreviation asc';
+
+    $this->subjects = $this->requestAsGet($query);
+
+    return $this;
+  }
+
+  /**
+   * Pull all numbers corresponding to the each subject.
+   *
+   */
+  public function numbers()
+  {
+
   }
 
   public function all()
