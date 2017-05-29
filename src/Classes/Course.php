@@ -226,6 +226,8 @@ class Course extends Term
    */
   public function only($property)
   {
-    return 'only';
+    if (!is_array($property)) {
+      return null;
+    }
   }
 }
