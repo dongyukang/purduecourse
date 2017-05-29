@@ -27,13 +27,7 @@ class Course extends Term
    *
    * @var Array
    */
-  public $subjects;
-
-  /**
-   *
-   * @var Array
-   */
-  public $numbers;
+  protected $subjects;
 
   /**
    * Number of courses.
@@ -92,6 +86,10 @@ class Course extends Term
    */
   public $description;
 
+  /**
+   * Method to get course information
+   * ex course('cs 180')
+   */
   public function course($course)
   {
     /**
@@ -144,7 +142,6 @@ class Course extends Term
 
   /**
    * Pull all subjects in abbreviated form.
-   *
    */
   public function subjects()
   {
@@ -152,16 +149,29 @@ class Course extends Term
 
     $this->subjects = $this->requestAsGet($query);
 
+    return $this->subjects;
+  }
+
+  /**
+   * Get subject
+   */
+  public function subject($subject_abbv)
+  {
+    $this->subject = $subject_abbv;
+
     return $this;
   }
 
   /**
-   * Pull all numbers corresponding to the each subject.
-   *
+   * Pull all details corresponding to the each subject.
    */
-  public function numbers()
+  public function getSubjectDetails()
   {
+    $query = 'Courses?$filter=Subject/Abbreviation eq ' . "'" . $this->subject . "'";
 
+    $data = $this->requestAsGet($query);
+    
+    return $data;
   }
 
   public function all()

@@ -40,7 +40,7 @@ class SimpleQueryBuilder
       $course_data = $this->splitCourseData($filterations['course']);
 
       $subnumquery = "'" . $course_data['subject'] . "'" . ' and Number eq ' . "'" . $course_data['course_number'] . "'";
-    }
+    } 
 
     $this->filter = '$filter=' . $this->subabbeq . $subnumquery;
 
