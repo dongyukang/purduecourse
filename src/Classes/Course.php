@@ -145,6 +145,14 @@ class Course extends Term
    */
   public function subjects()
   {
+    /**
+     * If user tries to access to course() directly without filtering through term,
+     * then the default term will be current term.
+     */
+    if ($this->termId == NULL) {
+      $this->termId = $this->currentTerm();
+    }
+
     $query = 'Subjects/?filter=(Courses/any(c: c/Classes/any(cc: cc/Term/TermId eq ' . $this->termId . ')))&$orderby=Abbreviation asc';
 
     $this->subjects = $this->requestAsGet($query);
@@ -157,6 +165,14 @@ class Course extends Term
    */
   public function subject($subject_abbv)
   {
+    /**
+     * If user tries to access to course() directly without filtering through term,
+     * then the default term will be current term.
+     */
+    if ($this->termId == NULL) {
+      $this->termId = $this->currentTerm();
+    }
+
     $this->subject = $subject_abbv;
 
     return $this;
@@ -170,7 +186,7 @@ class Course extends Term
     $query = 'Courses?$filter=Subject/Abbreviation eq ' . "'" . $this->subject . "'";
 
     $data = $this->requestAsGet($query);
-    
+
     return $data;
   }
 
