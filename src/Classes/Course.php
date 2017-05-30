@@ -153,7 +153,7 @@ class Course extends Term
       $this->termId = $this->currentTerm();
     }
 
-    $query = 'Subjects/?filter=(Courses/any(c: c/Classes/any(cc: cc/Term/TermId eq ' . $this->termId . ')))&$orderby=Abbreviation asc';
+    $query = 'Subjects?filter=(Courses/any(c: c/Classes/any(cc: cc/Term/TermId eq ' . $this->termId . ')))&$orderby=Abbreviation asc';
 
     $this->subjects = $this->requestAsGet($query);
 

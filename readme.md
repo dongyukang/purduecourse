@@ -12,7 +12,34 @@ I developed this package, because I wanted to ease off the process of using Purd
 As this package is based on the Purdue API, requesting to the web to obtain the data is necessary.
 Thus, it requires to use a [GuzzleHttp](https://github.com/guzzle/guzzle) package.
 
-### Purpose and Usage
+<hr>
+
+### Installing and Setting Up the Package
+
+This package requires a [GuzzleHttp](https://github.com/guzzle/guzzle) package.
+
+#### Installing
+
+```
+composer require dongyukang/purduecourse
+```
+#### Setup
+
+Register ```DongyuKang\PurdueCourse\PurdueCourseServiceProvider``` in 'providers' array of ```config/app.php```.
+
+#### Usage
+
+If you want to use Facade, then add
+
+```
+use DongyuKang\PurdueCourse\Facades\Purdue;
+```
+
+on the top section.
+
+<hr>
+
+### Purpose and Example
 
 I developed this package primarily to reduce amount of time and code that I should spend and write to retrieve Purdue course data.
 
@@ -28,5 +55,4 @@ Below is a screenshot of result data that you will get from the code above.
 
 ![Result](http://i.imgur.com/bHTI9p3.png)
 
-This package is still in development phase yet.<br>
 For more detail, refer to [WIKI](https://github.com/dongyukang/purduecourse/wiki)

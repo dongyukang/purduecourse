@@ -1,6 +1,6 @@
 {
     "name": "dongyukang/purduecourse",
-    "description": "Laravel Purdue Univeristy Course api package",
+    "description": "Laravel Purdue Univeristy Course API Package",
     "require": {
         "guzzlehttp/guzzle": "^6.2"
     },

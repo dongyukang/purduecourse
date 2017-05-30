@@ -17,6 +17,13 @@ class Term
   protected $terms;
 
   /**
+   * Today date
+   *
+   * @var Date
+   */
+  protected $today;
+
+  /**
    * Term id
    *
    * @var String
@@ -50,6 +57,7 @@ class Term
   public function __construct()
   {
     $this->terms = $this->requestAsGet('Terms');
+    $this->today = Carbon::now()->format('Y-m-d');
   }
 
   /**
@@ -62,7 +70,7 @@ class Term
    */
   protected function getTermId($term_name, $year)
   {
-    foreach($this->terms as $term) {
+    foreach(array_reverse($this->terms) as $term) {
       if ($term['Name'] == $term_name . ' ' . $year) {
 
         $this->termId = $term['TermId'];
@@ -116,6 +124,12 @@ class Term
     */
    protected function currentTerm()
    {
-     return 'c543a529-fed4-4fd0-b185-bd403106b4ea';
+     foreach(array_reverse($this->terms) as $term) {
+       if ($term['StartDate'] < $this->today && $this->today < $term['EndDate']) {
+         return $term['TermId'];
+       }
+     }
+
+     return null;
    }
 }
