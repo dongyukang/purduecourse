@@ -97,7 +97,7 @@ class Course extends Term
      * then the default term will be current term.
      */
     if ($this->termId == NULL) {
-      $this->termId = $this->currentTerm();
+      $this->termId = $this->currentTerm()->termId;
     }
 
     $courseData = $this->splitCourseData($course);
@@ -150,7 +150,7 @@ class Course extends Term
      * then the default term will be current term.
      */
     if ($this->termId == NULL) {
-      $this->termId = $this->currentTerm();
+      $this->termId = $this->currentTerm()->termId;
     }
 
     $query = 'Subjects?filter=(Courses/any(c: c/Classes/any(cc: cc/Term/TermId eq ' . $this->termId . ')))&$orderby=Abbreviation asc';
@@ -170,7 +170,7 @@ class Course extends Term
      * then the default term will be current term.
      */
     if ($this->termId == NULL) {
-      $this->termId = $this->currentTerm();
+      $this->termId = $this->currentTerm()->termId;
     }
 
     $this->subject = $subject_abbv;

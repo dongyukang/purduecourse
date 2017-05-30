@@ -40,16 +40,23 @@ class Term
   /**
    * Term beggining date
    *
-   * @var [type]
+   * @var Date
    */
   public $termBegin;
 
   /**
    * Term ending date
    *
-   * @var [type]
+   * @var Date
    */
   public $termEnd;
+
+  /**
+   * Term Code
+   *
+   * @var String
+   */
+  public $termCode;
 
   /**
    * Contstructor
@@ -77,6 +84,7 @@ class Term
         $this->termName = $term['Name'];
         $this->termBegin = $term['StartDate'];
         $this->termEnd = $term['EndDate'];
+        $this->termCode = $term['TermCode'];
 
         return $this;
       }
@@ -122,11 +130,12 @@ class Term
     * @param  $year
     * @return $termId
     */
-   protected function currentTerm()
+   public function currentTerm()
    {
      foreach(array_reverse($this->terms) as $term) {
        if ($term['StartDate'] < $this->today && $this->today < $term['EndDate']) {
-         return $term['TermId'];
+         $termData = explode(' ', $term['Name']);
+         return $this->getTermId($termData[0], $termData[1]);
        }
      }
 
