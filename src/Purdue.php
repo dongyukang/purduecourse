@@ -2,8 +2,8 @@
 
 namespace DongyuKang\PurdueCourse;
 
-use DongyuKang\PurdueCourse\Classes\Course;
+use DongyuKang\PurdueCourse\Classes\PurdueCourse;
 
-class Purdue extends Course
+class Purdue extends PurdueCourse
 {
 }
