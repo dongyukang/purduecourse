@@ -6,14 +6,22 @@ use DongyuKang\PurdueCourse\Classes\Course;
 
 class Sections extends Classes
 {
-  protected $sections;
+  protected $sections_info;
 
   public function sections()
   {
-    return $this->sections;
+    $this->sections_info = $this->class_info['Sections'];
+
+    return $this;
   }
 
-  public function section($condition)
+  public function sectionByCondition($condition)
   {
+
+  }
+
+  public function getSectionInfo()
+  {
+    return $this->sections_info;
   }
 }
