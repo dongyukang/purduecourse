@@ -13,7 +13,9 @@ class Classes extends Course
    */
   public function classes()
   {
-    return $this->classes;
+    $this->class_info = $this->classes;
+
+    return $this;
   }
 
   /**
