@@ -6,6 +6,7 @@ use DongyuKang\PurdueCourse\Classes\Course;
 
 class Classes extends Course
 {
+  protected $class_info;
 
   /**
    * Get All Classes
@@ -17,17 +18,26 @@ class Classes extends Course
 
   /**
    * Return class info by index in case there are more than one class information.
-   *
-   * @param  [type] $index [description]
-   * @return [type]        [description]
    */
   public function classByIndex($index)
   {
     if ($this->countCourses() > 1) {
-      return $this->classes[$index];
+      $this->class_info = $this->classes[$index];
+    } else {
+      $this->class_info = $this->classes;
     }
 
-    return $this->classes;
+    return $this;
+  }
+
+  /**
+   * Return class in array form
+   *
+   * @return Array
+   */
+  public function getClassInfo()
+  {
+    return $this->class_info;
   }
 
 }
