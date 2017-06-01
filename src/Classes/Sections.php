@@ -6,7 +6,7 @@ use DongyuKang\PurdueCourse\Classes\Course;
 
 class Sections extends Classes
 {
-  protected $sections = 'hi';
+  protected $sections;
 
   public function sections()
   {

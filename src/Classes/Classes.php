@@ -8,7 +8,7 @@ class Classes extends Course
 {
 
   /**
-   * Get Classes
+   * Get All Classes
    */
   public function classes()
   {
@@ -16,20 +16,18 @@ class Classes extends Course
   }
 
   /**
-   * Conditional clause
+   * Return class info by index in case there are more than one class information.
    *
-   *  @param $condition Either numeric or array
+   * @param  [type] $index [description]
+   * @return [type]        [description]
    */
-  public function class($condition)
+  public function classByIndex($index)
   {
-    if (is_array($condition)) {
-      return $this->getClassByCondition($condition);
+    if ($this->countCourses() > 1) {
+      return $this->classes[$index];
     }
-    return null;
-  }
 
-  protected function getClassByCondition($condition)
-  {
+    return $this->classes;
   }
 
 }

@@ -190,6 +190,17 @@ class Course extends Term
     return $data;
   }
 
+  /**
+   * Count number of courses.
+   * For instance, PHYS 172 has two courses, regular and honors
+   *
+   * @return Integer
+   */
+  public function countCourses()
+  {
+    return $this->count_courses;
+  }
+
   public function all()
   {
     $course_data = array();

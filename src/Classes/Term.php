@@ -3,6 +3,7 @@
 namespace DongyuKang\PurdueCourse\Classes;
 
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use DongyuKang\PurdueCourse\Traits\HttpRequestManager;
 
 class Term
