@@ -21,12 +21,12 @@ class Sections extends Classes
   /**
    * Return section(s) that has capacity greater than given number.
    */
-  public function capacityGreaterThan($capacity)
+  public function spaceGreaterThan($capacity)
   {
     $newData = array();
 
     foreach ($this->sections_info as $section) {
-      if ($section['Capacity'] > $capacity) {
+      if ($section['RemainingSpace'] > $capacity) {
         array_push($newData, $section);
       }
     }
@@ -40,12 +40,12 @@ class Sections extends Classes
   /**
    * Return section(s) that has capacity less than given number.
    */
-  public function capacityLessThan($capacity)
+  public function spaceLessThan($capacity)
   {
     $newData = array();
 
     foreach ($this->sections_info as $section) {
-      if ($section['Capacity'] < $capacity) {
+      if ($section['RemainingSpace'] < $capacity) {
         array_push($newData, $section);
       }
     }
