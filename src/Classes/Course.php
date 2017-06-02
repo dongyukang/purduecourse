@@ -105,7 +105,7 @@ class Course extends Term
     $this->course_number = $courseData['course_number'];
 
     if (!$this->checkCourseAvailability($this->termId, $this->subject, $this->course_number)) {
-      abort(404, 'Course not offer during this term');
+      dd('Course not offer during this term');
     }
 
     $course = $this->subject . ' ' . $this->course_number;
@@ -226,19 +226,5 @@ class Course extends Term
     }
 
     return $course_data;
-  }
-
-  /**
-   * Can select which properties to pull
-   *
-   *
-   * @param  [type] $property [description]
-   * @return [type]           [description]
-   */
-  public function only($property)
-  {
-    if (!is_array($property)) {
-      return null;
-    }
   }
 }

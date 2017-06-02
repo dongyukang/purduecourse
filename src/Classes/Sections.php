@@ -13,14 +13,44 @@ class Sections extends Classes
    */
   public function sections()
   {
-    if ($this->countCourses() > 1) {
-      $this->sections_info = array();
-      foreach ($this->classes as $class) {
-        array_push($this->sections_info, $class['Sections']);
+    $this->sections_info = $this->class_info['Sections'];
+
+    return $this;
+  }
+
+  /**
+   * Return section(s) that has capacity greater than given number.
+   */
+  public function capacityGreaterThan($capacity)
+  {
+    $newData = array();
+
+    foreach ($this->sections_info as $section) {
+      if ($section['Capacity'] > $capacity) {
+        array_push($newData, $section);
       }
-    } else {
-      $this->sections_info = $this->class_info['Sections'];
     }
+
+    $this->sections_info = $newData;
+
+    return $this;
+
+  }
+
+  /**
+   * Return section(s) that has capacity less than given number.
+   */
+  public function capacityLessThan($capacity)
+  {
+    $newData = array();
+
+    foreach ($this->sections_info as $section) {
+      if ($section['Capacity'] < $capacity) {
+        array_push($newData, $section);
+      }
+    }
+
+    $this->sections_info = $newData;
 
     return $this;
   }

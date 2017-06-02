@@ -11,8 +11,12 @@ class Classes extends Course
   /**
    * Get All Classes
    */
-  public function classes()
+  public function class()
   {
+    if ($this->countCourses() > 1) {
+      dd('This course `' . $this->subject . ' ' . $this->course_number . '` has more than one course. Use `classByIndex` method to choose one class.');
+    }
+
     $this->class_info = $this->classes;
 
     return $this;
