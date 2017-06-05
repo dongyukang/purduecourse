@@ -6,34 +6,35 @@ use DongyuKang\PurdueCourse\Classes\Course;
 
 class Classes extends Course
 {
+  /**
+   * Class info
+   *
+   * @var Array
+   */
   protected $class_info;
 
   /**
    * Get All Classes
    */
-  public function class()
+  public function classes()
   {
-    if ($this->countCourses() > 1) {
-      dd('This course `' . $this->subject . ' ' . $this->course_number . '` has more than one course. Use `classByIndex` method to choose one class.');
-    }
+    $this->class_info = array();
 
-    $this->class_info = $this->classes;
+    foreach ($this->classes as $class) {
+      array_push($this->class_info, $class);
+    }
 
     return $this;
   }
 
   /**
-   * Return class info by index in case there are more than one class information.
+   * Count classes
+   *
+   * @return Integer $count_courses
    */
-  public function classByIndex($index)
+  public function countClasses()
   {
-    if ($this->countCourses() > 1) {
-      $this->class_info = $this->classes[$index];
-    } else {
-      $this->class_info = $this->classes;
-    }
-
-    return $this;
+    return count($this->class_info);
   }
 
   /**

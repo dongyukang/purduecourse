@@ -2,7 +2,7 @@
 
 namespace DongyuKang\PurdueCourse\Classes;
 
-use DongyuKang\PurdueCourse\Classes\Course;
+use DongyuKang\PurdueCourse\Classes\Classes;
 
 class Sections extends Classes
 {
@@ -13,7 +13,22 @@ class Sections extends Classes
    */
   public function sections()
   {
-    $this->sections_info = $this->class_info['Sections'];
+    $this->sections_info = array();
+
+    // If there are more than one same course in single term, such as 'PHYS 172000',
+    // then additional array for each course is wrapped.
+    if ($this->countCourses() > 1) {
+      for ($i = 0; $i < $this->countCourses(); $i++) {
+        foreach ($this->class_info[$i] as $class) {
+          array_push($this->sections_info, [
+            'ClassIndex'  => $i,
+            'Sections'    => $class['Sections']
+          ]);
+        }
+      }
+    } else {
+
+    }
 
     return $this;
   }

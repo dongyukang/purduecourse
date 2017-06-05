@@ -105,7 +105,7 @@ class Course extends Term
     $this->course_number = $courseData['course_number'];
 
     if (!$this->checkCourseAvailability($this->termId, $this->subject, $this->course_number)) {
-      dd('Course not offer during this term');
+      dd('Course ' . $this->subject . ' ' . $this->course_number . ' not offer during ' . $this->termName);
     }
 
     $course = $this->subject . ' ' . $this->course_number;
@@ -115,11 +115,12 @@ class Course extends Term
     ->expand('$expand=Classes($expand=Sections($expand=Meetings($expand=Instructors)))')
     ->filter(['course' => $course])->build();
 
+    // Main line to get course information.
     $this->courses = $this->requestAsGet($query);
 
     $this->count_courses = count($this->courses);
 
-    if ($this->count_courses > 1) {
+    if ($this->countCourses() > 1) {
       $this->classes = $this->courseId = $this->title = $this->creditHours = $this->description = array();
 
       foreach($this->courses as $course) {
@@ -205,8 +206,8 @@ class Course extends Term
   {
     $course_data = array();
 
-    if ($this->count_courses > 1) {
-      for ($i = 0; $i < $this->count_courses; $i++) {
+    if ($this->countCourses() > 1) {
+      for ($i = 0; $i < $this->countCourses(); $i++) {
         array_push($course_data, [
           'CourseId'    => $this->courseId[$i],
           'Title'       => $this->title[$i],

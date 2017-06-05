@@ -64,12 +64,14 @@ trait CourseDataManager
    */
   public function pullClassData($termId, $classes)
   {
+    $classInTerm = array();
+
     foreach($classes as $class) {
       if ($class['TermId'] == $termId) {
-        return $class;
+        array_push($classInTerm, $class);
       }
     }
 
-    return null;
+    return $classInTerm;
   }
 }
