@@ -58,7 +58,9 @@ class Sections extends Classes
         $sections = array(); // empty array
       }
     } else {
-
+      // foreach ($this->sections_info as $sections) {
+      //
+      // }
     }
 
     $this->sections_info = $newData;
