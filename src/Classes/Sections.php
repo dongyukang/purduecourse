@@ -21,48 +21,74 @@ class Sections extends Classes
       for ($i = 0; $i < $this->countCourses(); $i++) {
         foreach ($this->class_info[$i] as $class) {
           array_push($this->sections_info, [
-            'ClassIndex'  => $i,
+            'CourseIndex' => $i,
             'Sections'    => $class['Sections']
           ]);
         }
       }
     } else {
-
+      foreach ($this->class_info as $class) {
+        array_push($this->sections_info, $class['Sections']);
+      }
     }
 
     return $this;
   }
 
   /**
-   * Return section(s) that has capacity greater than given number.
+   * Return section(s) that has remaining space greater than given number.
    */
-  public function spaceGreaterThan($capacity)
+  public function spaceGreaterThan($space)
   {
+    $sections = array();
     $newData = array();
 
-    foreach ($this->sections_info as $section) {
-      if ($section['RemainingSpace'] > $capacity) {
-        array_push($newData, $section);
+    if ($this->countCourses() > 1) {
+      foreach ($this->sections_info as $courseIndex) {
+        foreach ($courseIndex['Sections'] as $section) {
+          if ($section['RemainingSpace'] > $space) {
+            array_push($sections, $section);
+          }
+        }
+        array_push($newData, [
+          'CourseIndex' => $courseIndex['CourseIndex'],
+          'Sections'    => $sections
+        ]);
+
+        $sections = array(); // empty array
       }
+    } else {
+
     }
 
     $this->sections_info = $newData;
 
     return $this;
-
   }
 
   /**
-   * Return section(s) that has capacity less than given number.
+   * Return section(s) that has remaining space less than given number.
    */
-  public function spaceLessThan($capacity)
+  public function spaceLessThan($space)
   {
+    $sections = array();
     $newData = array();
 
-    foreach ($this->sections_info as $section) {
-      if ($section['RemainingSpace'] < $capacity) {
-        array_push($newData, $section);
+    if ($this->countCourses() > 1) {
+      foreach ($this->sections_info as $courseIndex) {
+        foreach ($courseIndex['Sections'] as $section) {
+          if ($section['RemainingSpace'] < $space) {
+            array_push($sections, $section);
+          }
+        }
+        array_push($newData, [
+          'CourseIndex' => $courseIndex['CourseIndex'],
+          'Sections'    => $sections
+        ]);
+
+        $sections = array(); // empty array
       }
+    } else {
     }
 
     $this->sections_info = $newData;
