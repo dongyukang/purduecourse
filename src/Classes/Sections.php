@@ -58,9 +58,16 @@ class Sections extends Classes
         $sections = array(); // empty array
       }
     } else {
-      // foreach ($this->sections_info as $sections) {
-      //
-      // }
+      foreach ($this->sections_info as $sections_info) {
+        foreach ($sections_info as $section) {
+          if ($section['RemainingSpace'] > $space) {
+            array_push($sections, $section);
+          }
+        }
+        array_push($newData, $sections);
+
+        $sections = array();
+      }
     }
 
     $this->sections_info = $newData;
@@ -91,6 +98,16 @@ class Sections extends Classes
         $sections = array(); // empty array
       }
     } else {
+      foreach ($this->sections_info as $sections_info) {
+        foreach ($sections_info as $section) {
+          if ($section['RemainingSpace'] < $space) {
+            array_push($sections, $section);
+          }
+        }
+        array_push($newData, $sections);
+
+        $sections = array();
+      }
     }
 
     $this->sections_info = $newData;
