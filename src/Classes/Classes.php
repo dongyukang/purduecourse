@@ -42,7 +42,7 @@ class Classes extends Course
    *
    * @return Array
    */
-  public function getClassInfo()
+  public function getClasses()
   {
     return $this->class_info;
   }

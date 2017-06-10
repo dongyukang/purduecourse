@@ -117,12 +117,44 @@ class Sections extends Classes
 
   /**
    * Get certain sections by filtering through condition.
+   * For example, a line
+   * Purdue::course('cs 180')->classes()->sections()->type('Laboratory')->getSectionInfo();
+   * gives arrays of sections that type is lab.
    *
    * @param  $condition
    */
-  public function sectionByCondition($condition)
+  public function type($type)
   {
+    $sections = array();
+    $newData = array();
 
+    if ($this->countCourses() > 1) {
+      foreach ($this->sections_info as $courseIndex) {
+        foreach ($courseIndex['Sections'] as $section) {
+          if ($section['Type'] == $type) {
+            array_push($sections, $section);
+          }
+        }
+        array_push($newData, [
+          'CourseIndex' => $courseIndex['CourseIndex'],
+          'Sections'    => $sections
+        ]);
+
+        $sections = array(); // empty array
+      }
+    } else {
+      foreach ($this->sections_info as $sections_info) {
+        foreach ($sections_info as $section) {
+          if ($section['Type'] == $type) {
+            array_push($sections, $section);
+          }
+        }
+        array_push($newData, $sections);
+      }
+    }
+    $this->sections_info = $newData;
+
+    return $this;
   }
 
   /**
@@ -130,7 +162,7 @@ class Sections extends Classes
    *
    * @return Array
    */
-  public function getSectionInfo()
+  public function getSections()
   {
     return $this->sections_info;
   }
