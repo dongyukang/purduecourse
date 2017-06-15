@@ -150,6 +150,7 @@ class Sections extends Classes
           }
         }
         array_push($newData, $sections);
+        $sections = array();
       }
     }
     $this->sections_info = $newData;
@@ -187,6 +188,7 @@ class Sections extends Classes
           }
         }
         array_push($newData, $sections);
+        $sections = array();
       }
     }
     $this->sections_info = $newData;

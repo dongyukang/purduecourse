@@ -14,7 +14,7 @@ class Classes extends Course
   protected $class_info;
 
   /**
-   * Get All Classes
+   * Load All Classes
    */
   public function classes()
   {
@@ -25,6 +25,30 @@ class Classes extends Course
     }
 
     return $this;
+  }
+
+  /**
+   * Get classes by course id, if there are more than one courses.
+   */
+  public function classesByCourseId($courseId)
+  {
+    $this->class_info = array();
+
+    if ($this->countCourses() > 1) {
+      foreach ($this->classes as $classes) {
+        foreach ($classes as $class) {
+          if ($class['CourseId'] == $courseId) {
+            array_push($this->class_info, $class);
+          }
+        }
+      }
+
+      $this->count_courses = 1;
+      
+      return $this;
+    }
+
+    return $this->classes();
   }
 
   /**
