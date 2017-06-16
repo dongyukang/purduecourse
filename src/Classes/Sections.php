@@ -36,6 +36,47 @@ class Sections extends Classes
   }
 
   /**
+   * exclude type
+   *
+   * @return type array or string
+   */
+  public function excludeType($type)
+  {
+    $sections = array();
+    $newData = array();
+
+    if ($this->countCourses() > 1) {
+      foreach ($this->sections_info as $courseIndex) {
+        foreach ($courseIndex['Sections'] as $section) {
+          if ($section['Type'] != $type) {
+            array_push($sections, $section);
+          }
+        }
+        array_push($newData, [
+          'CourseIndex' => $courseIndex['CourseIndex'],
+          'Sections'    => $sections
+        ]);
+
+        $sections = array(); // empty array
+      }
+    } else {
+      foreach ($this->sections_info as $sections_info) {
+        foreach ($sections_info as $section) {
+          if ($section['Type'] != $type) {
+            array_push($sections, $section);
+          }
+        }
+        array_push($newData, $sections);
+        $sections = array();
+      }
+    }
+    $this->sections_info = $newData;
+
+    return $this;
+  }
+
+
+  /**
    * Return section(s) that has remaining space greater than given number.
    */
   public function spaceGreaterThan($space)
@@ -146,44 +187,6 @@ class Sections extends Classes
       foreach ($this->sections_info as $sections_info) {
         foreach ($sections_info as $section) {
           if ($section['Type'] == $type) {
-            array_push($sections, $section);
-          }
-        }
-        array_push($newData, $sections);
-        $sections = array();
-      }
-    }
-    $this->sections_info = $newData;
-
-    return $this;
-  }
-
-  /**
-   * Get all sections that are not lecture.
-   */
-  public function excludeLecture()
-  {
-    $sections = array();
-    $newData = array();
-
-    if ($this->countCourses() > 1) {
-      foreach ($this->sections_info as $courseIndex) {
-        foreach ($courseIndex['Sections'] as $section) {
-          if ($section['Type'] != 'Lecture') {
-            array_push($sections, $section);
-          }
-        }
-        array_push($newData, [
-          'CourseIndex' => $courseIndex['CourseIndex'],
-          'Sections'    => $sections
-        ]);
-
-        $sections = array(); // empty array
-      }
-    } else {
-      foreach ($this->sections_info as $sections_info) {
-        foreach ($sections_info as $section) {
-          if ($section['Type'] != 'Lecture') {
             array_push($sections, $section);
           }
         }
